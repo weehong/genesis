@@ -31,8 +31,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 "app.logging.aspect.enabled=true"
         }
 )
-@AutoConfigureMockMvc
-@Import(DummyService.class) // import a dummy service for AOP interception
+@AutoConfigureMockMvc(addFilters = false)
+@Import({DummyService.class, com.resetrix.genesis.shared.securities.SecurityConfigurationTest.class})
 class LogAspectTest {
 
     @Autowired

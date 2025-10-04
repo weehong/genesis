@@ -2,10 +2,12 @@ package com.resetrix.genesis.shared.advices;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.resetrix.genesis.shared.responses.ApiResponse;
+import com.resetrix.genesis.shared.securities.SecurityConfigurationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -23,7 +25,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * {@link ApiResponse} format with success status, data, timestamp, and request path.
  */
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
+@Import(SecurityConfigurationTest.class)
 class ApiResponseWrapperAdviceTest {
 
     @Autowired
