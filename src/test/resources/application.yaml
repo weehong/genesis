@@ -1,3 +1,32 @@
 app:
   logging:
     aspect: enabled
+  cors:
+    allowed-origins: "http://localhost:3000,http://localhost:8080"
+    allowed-methods: GET,POST,PUT,DELETE,OPTIONS,HEAD
+    allowed-headers: Authorization,Content-Type,Accept
+    allow-credentials: true
+    max-age: 3600
+
+aws:
+  cognito:
+    user-pool-id: test-pool-id
+    client-id: test-client-id
+    region: us-east-1
+    issuer: http://localhost:8080/test-issuer
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/test-issuer
+          jwk-set-uri: http://localhost:8080/test-issuer/.well-known/jwks.json
