@@ -1,0 +1,13 @@
+{
+  "type": "about:blank",
+  "title": "Validation Failed",
+  "status": 400,
+  "detail": "Multiple validation errors occurred. See 'errors' for details.",
+  "instance": "/api/v1/authentication/sign-up",
+  "errors": [
+    {
+      "field": "phoneNumber",
+      "message": "Phone number must be in E.164 format (e.g., +1234567890)"
+    }
+  ]
+}

@@ -32,19 +32,14 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import static com.resetrix.genesis.shared.constants.SecurityConstants.PUBLIC_ENDPOINTS;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
 
     private static final Logger LOGGER =
             LoggerFactory.getLogger(SecurityConfiguration.class);
-
-    private static final String[] PUBLIC_ENDPOINTS = {
-            "/api/v1/authentication/**",
-            "/",
-            "/actuator/health",
-            "/actuator/info"
-    };
 
     private final CognitoProperty cognitoProperty;
     private final CorsProperty corsProperty;

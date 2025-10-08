@@ -16,27 +16,22 @@ import org.springframework.util.StringUtils;
 
 import javax.sql.DataSource;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
+
+import static com.resetrix.genesis.shared.constants.DatabaseConstants.DEFAULT_APPLICATION_NAME;
+import static com.resetrix.genesis.shared.constants.DatabaseConstants.DEFAULT_CONNECTION_TIMEOUT;
+import static com.resetrix.genesis.shared.constants.DatabaseConstants.DEFAULT_IDLE_TIMEOUT;
+import static com.resetrix.genesis.shared.constants.DatabaseConstants.DEFAULT_MAX_LIFETIME;
+import static com.resetrix.genesis.shared.constants.DatabaseConstants.DEFAULT_MAXIMUM_POOL_SIZE;
+import static com.resetrix.genesis.shared.constants.DatabaseConstants.DEFAULT_MINIMUM_IDLE;
+import static com.resetrix.genesis.shared.constants.DatabaseConstants.DEFAULT_POOL_NAME;
+import static com.resetrix.genesis.shared.constants.DatabaseConstants.JDBC_H2;
+import static com.resetrix.genesis.shared.constants.DatabaseConstants.JDBC_MYSQL;
+import static com.resetrix.genesis.shared.constants.DatabaseConstants.JDBC_POSTGRES;
 
 @Configuration
 public class DatabaseConfiguration {
 
-    private static final Logger LOGGER =
-        LoggerFactory.getLogger(DatabaseConfiguration.class);
-    private static final String JDBC_H2 = "jdbc:h2:";
-    private static final String JDBC_POSTGRES = "jdbc:postgresql";
-    private static final String JDBC_MYSQL = "jdbc:mysql:";
-
-    private static final String DEFAULT_POOL_NAME = "Genesis-HikariCP";
-    private static final String DEFAULT_APPLICATION_NAME = "Genesis-Application";
-    private static final int DEFAULT_MAXIMUM_POOL_SIZE = 10;
-    private static final int DEFAULT_MINIMUM_IDLE = 10;
-    private static final long DEFAULT_CONNECTION_TIMEOUT =
-        TimeUnit.SECONDS.toMillis(30);
-    private static final long DEFAULT_IDLE_TIMEOUT =
-        TimeUnit.MINUTES.toMillis(10);
-    private static final long DEFAULT_MAX_LIFETIME =
-        TimeUnit.MINUTES.toMillis(30);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseConfiguration.class);
 
     private final DatabaseProperty databaseProperty;
     private final Environment environment;

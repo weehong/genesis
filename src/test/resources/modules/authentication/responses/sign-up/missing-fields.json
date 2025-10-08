@@ -1,0 +1,21 @@
+{
+  "type": "about:blank",
+  "title": "Validation Failed",
+  "status": 400,
+  "detail": "Multiple validation errors occurred. See 'errors' for details.",
+  "instance": "/api/v1/authentication/sign-up",
+  "errors": [
+    {
+      "field": "email",
+      "message": "Email is required"
+    },
+    {
+      "field": "phoneNumber",
+      "message": "Phone Number is required"
+    },
+    {
+      "field": "password",
+      "message": "Password is required"
+    }
+  ]
+}

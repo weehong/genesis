@@ -14,17 +14,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import org.springframework.web.util.HtmlUtils;
 
-import java.util.regex.Pattern;
+import static com.resetrix.genesis.shared.constants.SecurityConstants.XSS_PATTERN;
 
 @RestControllerAdvice
 public class ApiResponseWrapperAdvice implements ResponseBodyAdvice<Object> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ApiResponseWrapperAdvice.class);
-
-    private static final Pattern XSS_PATTERN = Pattern.compile(
-        ".*(<script|<iframe|javascript:|onload=|onerror=|onclick=).*",
-        Pattern.CASE_INSENSITIVE | Pattern.DOTALL
-    );
 
     private final HttpServletRequest httpServletRequest;
 

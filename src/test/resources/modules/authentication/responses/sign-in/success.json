@@ -1,0 +1,5 @@
+{
+  "accessToken": "mock-access-token",
+  "refreshToken": "mock-refresh-token",
+  "idToken": "mock-id-token"
+}

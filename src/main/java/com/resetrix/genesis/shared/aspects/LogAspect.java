@@ -21,6 +21,8 @@ import software.amazon.awssdk.core.exception.SdkException;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import static com.resetrix.genesis.shared.constants.AspectConstants.SLOW_EXECUTION_THRESHOLD_MS;
+
 @Aspect
 @Component
 @ConditionalOnProperty(
@@ -32,7 +34,6 @@ import java.util.concurrent.TimeUnit;
 public class LogAspect {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LogAspect.class);
-    private static final long SLOW_EXECUTION_THRESHOLD_MS = 1000;
 
     private final MeterRegistry meterRegistry;
 

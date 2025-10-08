@@ -1,0 +1,13 @@
+{
+  "type": "about:blank",
+  "title": "Username Exists",
+  "status": 409,
+  "detail": "An account with this email already exists.",
+  "instance": "/api/v1/authentication/sign-up",
+  "errors": [
+    {
+      "field": "email",
+      "message": "An account with this email already exists"
+    }
+  ]
+}

@@ -141,8 +141,6 @@ class SecurityConfigurationIntegrationTest {
 
         mockMvc.perform(get("/api/test"))
                 .andExpect(status().isUnauthorized());
-        
-        // No session should be created - this is implicit in the stateless configuration
     }
 
     @Test
@@ -151,7 +149,7 @@ class SecurityConfigurationIntegrationTest {
         mockMvc.perform(post("/api/v1/authentication/sign-in")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{}"))
-                .andExpect(status().isNotFound()); // 400 because request validation fails, but security allows it
+                .andExpect(status().isBadRequest());
     }
 
     @Test
