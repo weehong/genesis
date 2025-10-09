@@ -1,0 +1,3 @@
+app:
+  logging:
+    aspect: enabled
