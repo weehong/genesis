@@ -372,7 +372,7 @@ class AuthenticationServiceTest {
     }
 
     @Test
-    void signUp_shouldThrowCryptographicException_whenUnexpectedErrorOccurs() {
+    void signUp_shouldThrowRuntimeException_whenUnexpectedErrorOccurs() {
         // Given
         CognitoSignUpRequest request = new CognitoSignUpRequest(
             "test@example.com",
@@ -426,7 +426,7 @@ class AuthenticationServiceTest {
     }
 
     @Test
-    void signIn_shouldLogSecretHashError_whenNotAuthorizedWithSecretHashMessage() {
+    void signIn_shouldThrowNotAuthorizedException_whenSecretHashError() {
         // Given
         CognitoSignInRequest request = new CognitoSignInRequest(
             "test@example.com",
@@ -445,7 +445,7 @@ class AuthenticationServiceTest {
     }
 
     @Test
-    void signIn_shouldLogClientConfigError_whenNotAuthorizedWithClientMessage() {
+    void signIn_shouldThrowNotAuthorizedException_whenClientConfigError() {
         // Given
         CognitoSignInRequest request = new CognitoSignInRequest(
             "test@example.com",
@@ -464,7 +464,7 @@ class AuthenticationServiceTest {
     }
 
     @Test
-    void signIn_shouldLogGenericNotAuthorized_whenNotAuthorizedWithOtherMessage() {
+    void signIn_shouldThrowNotAuthorizedException_whenOtherAuthError() {
         // Given
         CognitoSignInRequest request = new CognitoSignInRequest(
             "test@example.com",
@@ -483,7 +483,7 @@ class AuthenticationServiceTest {
 
 
     @Test
-    void signUp_shouldThrowInvalidParameterException_whenEmailIsNull() {
+    void signUp_shouldThrowNullPointerException_whenEmailIsNull() {
         // Given
         CognitoSignUpRequest request = new CognitoSignUpRequest(
             null,
@@ -497,7 +497,7 @@ class AuthenticationServiceTest {
     }
 
     @Test
-    void signUp_shouldThrowInvalidParameterException_whenEmailIsEmpty() {
+    void signUp_shouldThrowNullPointerException_whenEmailIsEmpty() {
         // Given
         CognitoSignUpRequest request = new CognitoSignUpRequest(
             "",
@@ -511,7 +511,7 @@ class AuthenticationServiceTest {
     }
 
     @Test
-    void signUp_shouldThrowInvalidParameterException_whenEmailIsWhitespace() {
+    void signUp_shouldThrowNullPointerException_whenEmailIsWhitespace() {
         // Given
         CognitoSignUpRequest request = new CognitoSignUpRequest(
             "   ",

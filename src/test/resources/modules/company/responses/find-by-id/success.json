@@ -1,0 +1,10 @@
+{
+  "id": 1,
+  "uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "name": "Test Company",
+  "registrationNumber": "REG123456",
+  "logo": "bG9nbw==",
+  "softDelete": false,
+  "createdAt": "2025-10-08T10:30:00.000+00:00",
+  "updatedAt": "2025-10-08T10:30:00.000+00:00"
+}

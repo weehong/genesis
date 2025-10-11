@@ -96,4 +96,30 @@ class BaseExceptionTest {
 
         assertThat(result).isSameAs(exception);
     }
+
+    @Test
+    void shouldCreateBaseExceptionWithCause() {
+        Throwable cause = new IllegalArgumentException("Root cause");
+        BaseException exception = new BaseException("Test error", cause, HttpStatus.BAD_REQUEST, "TEST_ERROR") {};
+
+        assertThat(exception.getMessage()).isEqualTo("Test error");
+        assertThat(exception.getCause()).isEqualTo(cause);
+        assertThat(exception.getHttpStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
+        assertThat(exception.getErrorCode()).isEqualTo("TEST_ERROR");
+    }
+
+    @Test
+    void shouldCreateProblemDetailWithCause() {
+        Throwable cause = new IllegalArgumentException("Root cause");
+        BaseException exception = new BaseException("Test error", cause, HttpStatus.BAD_REQUEST, "TEST_ERROR") {};
+
+        ProblemDetail problemDetail = exception.toProblemDetail("/api/test");
+
+        assertThat(problemDetail.getStatus()).isEqualTo(400);
+        assertThat(problemDetail.getDetail()).isEqualTo("Test error");
+        assertThat(problemDetail.getTitle()).isEqualTo("Bad Request");
+        assertThat(problemDetail.getInstance()).isNotNull();
+        assertThat(problemDetail.getInstance().toString()).isEqualTo("/api/test");
+        assertThat(problemDetail.getProperties()).containsEntry("errorCode", "TEST_ERROR");
+    }
 }

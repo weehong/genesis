@@ -39,13 +39,13 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class AuthenticationExceptionHandlerTest {
 
+    private static final String REQUEST_URI = "/api/v1/authentication/test";
+
     @InjectMocks
     private AuthenticationExceptionHandler exceptionHandler;
-
+    
     @Mock
     private HttpServletRequest request;
-
-    private static final String REQUEST_URI = "/api/auth/test";
 
     @BeforeEach
     void setUp() {
@@ -76,9 +76,9 @@ class AuthenticationExceptionHandlerTest {
         List<Map<String, String>> errors = (List<Map<String, String>>) result.getProperties().get("errors");
         assertThat(errors).hasSize(2);
         assertThat(errors.get(0)).containsEntry("field", "email")
-                                  .containsEntry("message", "must be a valid email");
+            .containsEntry("message", "must be a valid email");
         assertThat(errors.get(1)).containsEntry("field", "password")
-                                  .containsEntry("message", "must not be blank");
+            .containsEntry("message", "must not be blank");
     }
 
     @Test
@@ -105,7 +105,7 @@ class AuthenticationExceptionHandlerTest {
         List<Map<String, String>> errors = (List<Map<String, String>>) result.getProperties().get("errors");
         assertThat(errors).hasSize(1);
         assertThat(errors.get(0)).containsEntry("field", "method")
-                                  .containsEntry("message", exception.getMessage());
+            .containsEntry("message", exception.getMessage());
     }
 
     @Test
@@ -130,7 +130,7 @@ class AuthenticationExceptionHandlerTest {
         List<Map<String, String>> errors = (List<Map<String, String>>) result.getProperties().get("errors");
         assertThat(errors).hasSize(1);
         assertThat(errors.get(0)).containsEntry("field", "cryptography")
-                                  .containsEntry("message", errorMessage);
+            .containsEntry("message", errorMessage);
     }
 
     @Test
