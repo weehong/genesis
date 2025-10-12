@@ -20,10 +20,7 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class CustomAccessDeniedHandlerTest {
@@ -70,7 +67,7 @@ class CustomAccessDeniedHandlerTest {
 
         // Capture the error response map that was written
         ArgumentCaptor<Map<String, Object>> errorResponseCaptor = ArgumentCaptor.forClass(Map.class);
-        verify(objectMapper).writeValue(eq(printWriter), errorResponseCaptor.capture());
+        verify(objectMapper).writeValue(any(PrintWriter.class), errorResponseCaptor.capture());
 
         Map<String, Object> errorResponse = errorResponseCaptor.getValue();
         assertThat(errorResponse).containsEntry("error", "Forbidden");
@@ -97,7 +94,7 @@ class CustomAccessDeniedHandlerTest {
         verify(response).setContentType(MediaType.APPLICATION_JSON_VALUE);
 
         ArgumentCaptor<Map<String, Object>> errorResponseCaptor = ArgumentCaptor.forClass(Map.class);
-        verify(objectMapper).writeValue(eq(printWriter), errorResponseCaptor.capture());
+        verify(objectMapper).writeValue(any(PrintWriter.class), errorResponseCaptor.capture());
 
         Map<String, Object> errorResponse = errorResponseCaptor.getValue();
         assertThat(errorResponse).containsEntry("error", "Forbidden");
@@ -124,7 +121,7 @@ class CustomAccessDeniedHandlerTest {
         verify(response).setContentType(MediaType.APPLICATION_JSON_VALUE);
 
         ArgumentCaptor<Map<String, Object>> errorResponseCaptor = ArgumentCaptor.forClass(Map.class);
-        verify(objectMapper).writeValue(eq(printWriter), errorResponseCaptor.capture());
+        verify(objectMapper).writeValue(any(PrintWriter.class), errorResponseCaptor.capture());
 
         Map<String, Object> errorResponse = errorResponseCaptor.getValue();
         assertThat(errorResponse).containsEntry("error", "Forbidden");
@@ -147,7 +144,7 @@ class CustomAccessDeniedHandlerTest {
 
         // Then
         ArgumentCaptor<Map<String, Object>> errorResponseCaptor = ArgumentCaptor.forClass(Map.class);
-        verify(objectMapper).writeValue(eq(printWriter), errorResponseCaptor.capture());
+        verify(objectMapper).writeValue(any(PrintWriter.class), errorResponseCaptor.capture());
 
         Map<String, Object> errorResponse = errorResponseCaptor.getValue();
         assertThat(errorResponse).containsEntry("path", requestUri);
@@ -167,7 +164,7 @@ class CustomAccessDeniedHandlerTest {
 
         // Then
         ArgumentCaptor<Map<String, Object>> errorResponseCaptor = ArgumentCaptor.forClass(Map.class);
-        verify(objectMapper).writeValue(eq(printWriter), errorResponseCaptor.capture());
+        verify(objectMapper).writeValue(any(PrintWriter.class), errorResponseCaptor.capture());
 
         Map<String, Object> errorResponse = errorResponseCaptor.getValue();
         assertThat(errorResponse).containsEntry("path", null);
@@ -183,7 +180,7 @@ class CustomAccessDeniedHandlerTest {
         when(accessDeniedException.getMessage()).thenReturn(exceptionMessage);
         when(request.getRequestURI()).thenReturn(requestUri);
         when(response.getWriter()).thenReturn(printWriter);
-        doThrow(ioException).when(objectMapper).writeValue(eq(printWriter), any(Map.class));
+        doThrow(ioException).when(objectMapper).writeValue(any(PrintWriter.class), any(Map.class));
 
         // When & Then
         assertThatThrownBy(() -> handler.handle(request, response, accessDeniedException))
@@ -246,7 +243,7 @@ class CustomAccessDeniedHandlerTest {
         verify(response).setContentType("application/json");
 
         ArgumentCaptor<Map<String, Object>> errorResponseCaptor = ArgumentCaptor.forClass(Map.class);
-        verify(objectMapper).writeValue(eq(printWriter), errorResponseCaptor.capture());
+        verify(objectMapper).writeValue(any(PrintWriter.class), errorResponseCaptor.capture());
 
         Map<String, Object> errorResponse = errorResponseCaptor.getValue();
         assertThat(errorResponse).hasSize(4);
@@ -275,7 +272,7 @@ class CustomAccessDeniedHandlerTest {
 
         // Then
         ArgumentCaptor<Map<String, Object>> errorResponseCaptor = ArgumentCaptor.forClass(Map.class);
-        verify(objectMapper).writeValue(eq(printWriter), errorResponseCaptor.capture());
+        verify(objectMapper).writeValue(any(PrintWriter.class), errorResponseCaptor.capture());
 
         Map<String, Object> errorResponse = errorResponseCaptor.getValue();
         assertThat(errorResponse).containsEntry("path", requestUri);

@@ -22,6 +22,7 @@ public class JsonFileReader {
     private static final ObjectMapper OBJECT_MAPPER = createObjectMapper();
     private static final String REQUESTS_DIR = "requests/";
     private static final String RESPONSES_DIR = "responses/";
+    private static final String ENTITIES_DIR = "entities/";
 
     private JsonFileReader() {
         throw new UnsupportedOperationException("Utility class");
@@ -127,6 +128,34 @@ public class JsonFileReader {
     }
 
     /**
+     * Reads an entity JSON file from test/resources/{module}/entities/{entityName}.json
+     *
+     * @param module     module name (e.g., "user", "company", "product", "order")
+     * @param entityName entity name (e.g., "company", "user")
+     * @param clazz      target class type
+     * @param <T>        generic type
+     * @return deserialized entity object
+     * @throws IOException if file cannot be read or parsed
+     */
+    public static <T> T readEntity(String module, String entityName, Class<T> clazz) throws IOException {
+        String filePath = module + "/" + ENTITIES_DIR + ensureJsonExtension(entityName);
+        return readJson(filePath, clazz);
+    }
+
+    /**
+     * Reads an entity JSON file and returns as String
+     *
+     * @param module     module name (e.g., "user", "company", "product", "order")
+     * @param entityName entity name (e.g., "company", "user")
+     * @return JSON content as String
+     * @throws IOException if file cannot be read
+     */
+    public static String readEntityAsString(String module, String entityName) throws IOException {
+        String filePath = module + "/" + ENTITIES_DIR + ensureJsonExtension(entityName);
+        return readFileAsString(filePath);
+    }
+
+    /**
      * Converts an object to JSON string
      *
      * @param object object to serialize
@@ -190,12 +219,20 @@ public class JsonFileReader {
             return JsonFileReader.readResponse(module, endpoint, scenario, clazz);
         }
 
+        public <T> T readEntity(Class<T> clazz) throws IOException {
+            return JsonFileReader.readEntity(module, scenario, clazz);
+        }
+
         public String readRequestAsString() throws IOException {
             return JsonFileReader.readRequestAsString(module, endpoint, scenario);
         }
 
         public String readResponseAsString() throws IOException {
             return JsonFileReader.readResponseAsString(module, endpoint, scenario);
+        }
+
+        public String readEntityAsString() throws IOException {
+            return JsonFileReader.readEntityAsString(module, scenario);
         }
     }
 }
