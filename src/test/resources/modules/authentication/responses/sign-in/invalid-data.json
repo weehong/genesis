@@ -1,0 +1,17 @@
+{
+  "type": "about:blank",
+  "title": "Validation Failed",
+  "status": 400,
+  "detail": "Multiple validation errors occurred. See 'errors' for details.",
+  "instance": "/api/v1/authentication/sign-in",
+  "errors": [
+    {
+      "field": "email",
+      "message": "Email must be valid."
+    },
+    {
+      "field": "password",
+      "message": "Password must be between 8 and 128 characters."
+    }
+  ]
+}
