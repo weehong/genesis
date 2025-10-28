@@ -33,6 +33,7 @@
         <aws.version>2.34.8</aws.version>
         <jacoco.version>0.8.13</jacoco.version>
         <maven.checkstyle.plugin.version>3.6.0</maven.checkstyle.plugin.version>
+        <commons.codec.version>1.19.0</commons.codec.version>
     </properties>
     <dependencies>
         <dependency>
@@ -68,6 +69,11 @@
             <artifactId>micrometer-registry-prometheus</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-core</artifactId>
+            <version>13.5</version>
+        </dependency>
+        <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
         </dependency>
@@ -86,6 +92,10 @@
             <version>${aws.version}</version>
         </dependency>
         <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
@@ -93,7 +103,6 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -103,6 +112,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -194,6 +208,7 @@
 
                         <!-- Entity classes -->
                         <exclude>**/*Entity.class</exclude>
+                        <exclude>**/entities/*.class</exclude>
 
                         <!-- Configuration classes -->
                         <exclude>**/*Config.class</exclude>
@@ -258,6 +273,7 @@
 
                                 <!-- Entity classes -->
                                 <exclude>**/*Entity.class</exclude>
+                                <exclude>**/entities/*.class</exclude>
 
                                 <!-- Configuration classes -->
                                 <exclude>**/*Config.class</exclude>
