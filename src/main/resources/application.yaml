@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8080
 
 spring:
   application:
@@ -23,11 +23,11 @@ spring:
         ddl-auto: validate
       show-sql: true
 
-    flyway:
-      enabled: true
-      baseline-on-migrate: true
-      validate-on-migrate: true
-      locations: classpath:db/migrations
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    validate-on-migrate: true
+    locations: classpath:db/migrations
 
 app:
   cors:
