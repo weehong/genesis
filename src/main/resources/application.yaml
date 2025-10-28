@@ -1,9 +1,9 @@
 server:
-  port: 8081
+  port: 8080
 
 spring:
   application:
-    name: GENESIS
+    name: HORAION
 
   datasource:
     url: jdbc:postgresql://${POSTGRES_DB_HOST}:${POSTGRES_DB_PORT}/${POSTGRES_DB_NAME}
@@ -23,11 +23,11 @@ spring:
         ddl-auto: validate
       show-sql: true
 
-    flyway:
-      enabled: true
-      baseline-on-migrate: true
-      validate-on-migrate: true
-      locations: classpath:db/migrations
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    validate-on-migrate: true
+    locations: classpath:db/migrations
 
 app:
   cors:
@@ -62,7 +62,7 @@ management:
 logging:
   level:
     root: INFO
-    com.resetrix.genesis: INFO
+    com.resetrix.horaion: INFO
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%X{requestId}] [%X{userId}] - %msg%n"
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} [%X{requestId}] [%X{userId}] - %msg%n"

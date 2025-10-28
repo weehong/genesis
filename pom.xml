@@ -10,10 +10,10 @@
         <relativePath/>
     </parent>
     <groupId>com.resetrix</groupId>
-    <artifactId>genesis</artifactId>
+    <artifactId>horaion</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>genesis</name>
-    <description>genesis</description>
+    <name>horaion</name>
+    <description>horaion</description>
     <url/>
     <licenses>
         <license/>
@@ -195,7 +195,7 @@
                 <configuration>
                     <excludes>
                         <!-- Main application class -->
-                        <exclude>**/GenesisApplication.class</exclude>
+                        <exclude>**/HoraionApplication.class</exclude>
 
                         <!-- Constants classes -->
                         <exclude>**/*Constant.class</exclude>
@@ -260,7 +260,7 @@
                         <configuration>
                             <excludes>
                                 <!-- Main application class -->
-                                <exclude>**/GenesisApplication.class</exclude>
+                                <exclude>**/HoraionApplication.class</exclude>
 
                                 <!-- Constants classes -->
                                 <exclude>**/*Constant.class</exclude>
