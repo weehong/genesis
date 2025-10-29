@@ -41,7 +41,7 @@ import static com.resetrix.horaion.shared.constants.SecurityConstants.PUBLIC_END
 public class SecurityConfiguration {
 
     private static final Logger LOGGER =
-        LoggerFactory.getLogger(SecurityConfiguration.class);
+            LoggerFactory.getLogger(SecurityConfiguration.class);
 
     private final CognitoProperty cognitoProperty;
     private final CorsProperty corsProperty;

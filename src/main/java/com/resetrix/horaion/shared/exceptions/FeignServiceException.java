@@ -1,8 +1,7 @@
 package com.resetrix.horaion.shared.exceptions;
 
-import org.springframework.http.HttpStatus;
-
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 /**
  * Exception thrown when Feign client operations fail.

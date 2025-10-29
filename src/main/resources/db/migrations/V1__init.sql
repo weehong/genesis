@@ -40,6 +40,26 @@ CREATE INDEX idx_branches_company_id ON branches (company_id);
 CREATE INDEX idx_branches_uuid ON branches (uuid);
 CREATE INDEX idx_branches_soft_delete ON branches (soft_delete);
 
+CREATE TABLE departments
+(
+    id              BIGSERIAL PRIMARY KEY,
+    uuid            UUID         NOT NULL DEFAULT gen_random_uuid(),
+    branch_id       BIGINT       NOT NULL,
+    department_name VARCHAR(255) NOT NULL,
+    department_code VARCHAR(20)  NOT NULL,
+    description     TEXT,
+    soft_delete     BOOLEAN      NOT NULL DEFAULT FALSE,
+    created_at      TIMESTAMP             DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP             DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_department_branch FOREIGN KEY (branch_id)
+        REFERENCES branches (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT uq_department_code_branch UNIQUE (branch_id, department_code)
+);
+
+CREATE INDEX idx_departments_branch_id ON departments (branch_id);
+CREATE INDEX idx_departments_uuid ON departments (uuid);
+CREATE INDEX idx_departments_soft_delete ON departments (soft_delete);
+
 CREATE TABLE constraints
 (
     id           BIGSERIAL PRIMARY KEY,

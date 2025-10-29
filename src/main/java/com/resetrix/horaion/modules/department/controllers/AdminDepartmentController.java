@@ -1,0 +1,144 @@
+package com.resetrix.horaion.modules.department.controllers;
+
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.UUID;
+
+import com.resetrix.horaion.modules.department.requests.DepartmentRequest;
+import com.resetrix.horaion.modules.department.responses.DepartmentResponse;
+import com.resetrix.horaion.modules.department.services.IDepartmentService;
+
+import jakarta.validation.Valid;
+
+@RestController
+@RequestMapping(value = "/api/v1/admin/departments")
+public class AdminDepartmentController {
+
+    private final IDepartmentService<DepartmentRequest, DepartmentResponse> service;
+
+    public AdminDepartmentController(IDepartmentService<DepartmentRequest, DepartmentResponse> service) {
+        this.service = service;
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("@authorizationService.hasSystemAdminAccess(authentication)")
+    public Page<DepartmentResponse> findAll(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size,
+        @RequestParam(defaultValue = "id") String sortBy,
+        @RequestParam(defaultValue = "ASC") String sortDirection) {
+        return service.getAll(page, size, sortBy, sortDirection);
+    }
+
+    @GetMapping("/branch/{branchId:[0-9]+}")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("@authorizationService.canAccessBranchResources(authentication, #branchId.toString())")
+    public Page<DepartmentResponse> findAllByBranchId(
+        @PathVariable Long branchId,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size,
+        @RequestParam(defaultValue = "id") String sortBy,
+        @RequestParam(defaultValue = "ASC") String sortDirection) {
+        return service.getAllByBranchId(branchId, page, size, sortBy, sortDirection);
+    }
+
+    @GetMapping("/branch/{branchId:[0-9a-fA-F\\-]{36}}")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("@authorizationService.canAccessBranchResources(authentication, #branchId)")
+    public Page<DepartmentResponse> findAllByBranchUuid(
+        @PathVariable String branchId,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size,
+        @RequestParam(defaultValue = "id") String sortBy,
+        @RequestParam(defaultValue = "ASC") String sortDirection) {
+        return service.getAllByBranchId(UUID.fromString(branchId), page, size, sortBy, sortDirection);
+    }
+
+    @GetMapping("/company/{companyId:[0-9]+}")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("@authorizationService.canAccessCompanyResources(authentication, #companyId.toString())")
+    public Page<DepartmentResponse> findAllByCompanyId(
+        @PathVariable Long companyId,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size,
+        @RequestParam(defaultValue = "id") String sortBy,
+        @RequestParam(defaultValue = "ASC") String sortDirection) {
+        return service.getAllByCompanyId(companyId, page, size, sortBy, sortDirection);
+    }
+
+    @GetMapping("/company/{companyId:[0-9a-fA-F\\-]{36}}")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("@authorizationService.canAccessCompanyResources(authentication, #companyId)")
+    public Page<DepartmentResponse> findAllByCompanyUuid(
+        @PathVariable String companyId,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size,
+        @RequestParam(defaultValue = "id") String sortBy,
+        @RequestParam(defaultValue = "ASC") String sortDirection) {
+        return service.getAllByCompanyId(UUID.fromString(companyId), page, size, sortBy, sortDirection);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("@authorizationService.hasElevatedAccess(authentication)")
+    public DepartmentResponse create(@Valid @RequestBody DepartmentRequest request) {
+        return service.save(request);
+    }
+
+    @PutMapping(value = "/{id:[0-9]+}")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("@authorizationService.hasElevatedAccess(authentication)")
+    public DepartmentResponse updateById(
+        @PathVariable Long id,
+        @Valid @RequestBody DepartmentRequest request) {
+        return service.update(id, request);
+    }
+
+    @PutMapping(value = "/{uuid:[0-9a-fA-F\\-]{36}}")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("@authorizationService.hasElevatedAccess(authentication)")
+    public DepartmentResponse updateByUuid(
+        @PathVariable UUID uuid,
+        @Valid @RequestBody DepartmentRequest request) {
+        return service.updateByUuid(uuid, request);
+    }
+
+    @DeleteMapping("/{id:[0-9]+}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("@authorizationService.hasElevatedAccess(authentication)")
+    public void deleteById(
+        @PathVariable Long id,
+        @RequestParam(defaultValue = "false") boolean soft) {
+        if (soft) {
+            service.softDelete(id);
+        } else {
+            service.delete(id);
+        }
+    }
+
+    @DeleteMapping("/{uuid:[0-9a-fA-F\\-]{36}}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("@authorizationService.hasElevatedAccess(authentication)")
+    public void deleteByUuid(
+        @PathVariable UUID uuid,
+        @RequestParam(defaultValue = "false") boolean soft) {
+        if (soft) {
+            service.softDeleteByUuid(uuid);
+        } else {
+            service.deleteByUuid(uuid);
+        }
+    }
+}
