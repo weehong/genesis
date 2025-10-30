@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Locale;
 
 import static com.resetrix.horaion.shared.constants.SecurityConstants.CLAIM_COGNITO_GROUPS;
-import static com.resetrix.horaion.shared.constants.SecurityConstants.CLAIM_CUSTOM_ROLES;
 
 @Component
 public class CognitoJwtAuthenticationConverter
@@ -37,7 +36,7 @@ public class CognitoJwtAuthenticationConverter
     private Collection<GrantedAuthority> extractAuthorities(Jwt jwt) {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
-        // Extract authorities from Cognito groups
+        // Extract authorities from Cognito groups only
         List<String> groups = jwt.getClaimAsStringList(CLAIM_COGNITO_GROUPS);
         if (groups != null) {
             authorities.addAll(groups.stream()
@@ -47,18 +46,8 @@ public class CognitoJwtAuthenticationConverter
 
             LOGGER.debug("Extracted authorities from Cognito groups {}: {}", groups,
                     groups.stream().map(g -> "ROLE_" + g.toUpperCase(Locale.ROOT).replace("-", "_")).toList());
-        }
-
-        // Extract authorities from custom roles
-        List<String> customRoles = jwt.getClaimAsStringList(CLAIM_CUSTOM_ROLES);
-        if (customRoles != null) {
-            authorities.addAll(customRoles.stream()
-                .map(role -> new SimpleGrantedAuthority(
-                    "ROLE_" + role.toUpperCase(Locale.ROOT).replace("-", "_")))
-                .toList());
-
-            LOGGER.debug("Extracted authorities from custom roles {}: {}", customRoles,
-                    customRoles.stream().map(r -> "ROLE_" + r.toUpperCase(Locale.ROOT).replace("-", "_")).toList());
+        } else {
+            LOGGER.debug("No Cognito groups found in JWT token");
         }
 
         return authorities;

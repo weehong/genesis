@@ -43,9 +43,6 @@ public final class SecurityConstants {
 
     // JWT claim names
     public static final String CLAIM_COGNITO_GROUPS = "cognito:groups";
-    public static final String CLAIM_CUSTOM_ROLES = "custom:roles";
-    public static final String CLAIM_COMPANY_ID = "company_id";
-    public static final String CLAIM_COMPANY_UUID = "company_uuid";
 
     private SecurityConstants() {
         throw new AssertionError("No instances.");
