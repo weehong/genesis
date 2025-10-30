@@ -37,6 +37,83 @@ app:
     allow-credentials: ${CORS_ALLOW_CREDENTIALS}
     max-age: ${CORS_MAX_AGE}
 
+  access-control:
+    # SECURITY: Never set development-mode to true in production!
+    development-mode: ${ACCESS_CONTROL_DEV_MODE:false}
+    cache-enabled: ${ACCESS_CONTROL_CACHE_ENABLED:true}
+    cache-ttl-seconds: ${ACCESS_CONTROL_CACHE_TTL:300}
+    default-access-mode: ${ACCESS_CONTROL_DEFAULT_MODE:READ}
+
+    # Resource-specific access patterns
+    resource-patterns:
+      COMPANY:
+        admin-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SYSTEM_OWNER
+        write-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SYSTEM_OWNER
+          - PRIVILEGED_SYSTEM_USER
+        read-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SYSTEM_OWNER
+          - PRIVILEGED_SYSTEM_USER
+          - USER
+        delete-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SYSTEM_OWNER
+
+      BRANCH:
+        admin-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SYSTEM_OWNER
+        write-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SYSTEM_OWNER
+          - PRIVILEGED_SYSTEM_USER
+        read-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SYSTEM_OWNER
+          - PRIVILEGED_SYSTEM_USER
+          - USER
+        delete-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SYSTEM_OWNER
+
+      DEPARTMENT:
+        admin-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SYSTEM_OWNER
+        write-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SYSTEM_OWNER
+          - PRIVILEGED_SYSTEM_USER
+        read-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SYSTEM_OWNER
+          - PRIVILEGED_SYSTEM_USER
+          - USER
+        delete-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SYSTEM_OWNER
+
+      # Default pattern for new resource types
+      DEFAULT:
+        admin-roles:
+          - SYSTEM_ADMINISTRATOR
+        write-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SYSTEM_OWNER
+          - PRIVILEGED_SYSTEM_USER
+        read-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SYSTEM_OWNER
+          - PRIVILEGED_SYSTEM_USER
+          - USER
+        delete-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SYSTEM_OWNER
+
 aws:
   cognito:
     region: ${AWS_REGION}

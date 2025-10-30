@@ -1,0 +1,222 @@
+# Example configuration for hierarchical access control system
+# This file shows how to configure access patterns for different resource types
+
+app:
+  access-control:
+    # SECURITY WARNING: Never set development-mode to true in production!
+    # This flag allows access pending implementation and bypasses security checks
+    development-mode: false
+    
+    # Enable caching of access control decisions for better performance
+    cache-enabled: true
+    
+    # Cache TTL in seconds (5 minutes = 300 seconds)
+    cache-ttl-seconds: 300
+    
+    # Default access mode when none is specified
+    default-access-mode: READ
+    
+    # Resource-specific access patterns
+    # Each resource type can have different role requirements for different access modes
+    resource-patterns:
+      
+      # Company-level access (top of hierarchy)
+      COMPANY:
+        admin-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SYSTEM_OWNER
+        write-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SYSTEM_OWNER
+          - PRIVILEGED_SYSTEM_USER
+        read-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SYSTEM_OWNER
+          - PRIVILEGED_SYSTEM_USER
+          - USER
+        delete-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SYSTEM_OWNER
+      
+      # Branch-level access
+      BRANCH:
+        admin-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SYSTEM_OWNER
+        write-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SYSTEM_OWNER
+          - PRIVILEGED_SYSTEM_USER
+        read-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SYSTEM_OWNER
+          - PRIVILEGED_SYSTEM_USER
+          - USER
+        delete-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SYSTEM_OWNER
+      
+      # Department-level access
+      DEPARTMENT:
+        admin-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SYSTEM_OWNER
+        write-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SYSTEM_OWNER
+          - PRIVILEGED_SYSTEM_USER
+        read-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SYSTEM_OWNER
+          - PRIVILEGED_SYSTEM_USER
+          - USER
+        delete-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SYSTEM_OWNER
+      
+      # Employee management module
+      EMPLOYEE:
+        admin-roles:
+          - SYSTEM_ADMINISTRATOR
+          - HR_ADMIN
+        write-roles:
+          - SYSTEM_ADMINISTRATOR
+          - HR_ADMIN
+          - HR_USER
+        read-roles:
+          - SYSTEM_ADMINISTRATOR
+          - HR_ADMIN
+          - HR_USER
+          - MANAGER
+          - USER
+        delete-roles:
+          - SYSTEM_ADMINISTRATOR
+          - HR_ADMIN
+      
+      # Payroll management module (more restrictive)
+      PAYROLL:
+        admin-roles:
+          - SYSTEM_ADMINISTRATOR
+          - PAYROLL_ADMIN
+        write-roles:
+          - SYSTEM_ADMINISTRATOR
+          - PAYROLL_ADMIN
+        read-roles:
+          - SYSTEM_ADMINISTRATOR
+          - PAYROLL_ADMIN
+          - PAYROLL_USER
+        delete-roles:
+          - SYSTEM_ADMINISTRATOR
+          - PAYROLL_ADMIN
+      
+      # Inventory management module
+      INVENTORY:
+        admin-roles:
+          - SYSTEM_ADMINISTRATOR
+          - INVENTORY_ADMIN
+        write-roles:
+          - SYSTEM_ADMINISTRATOR
+          - INVENTORY_ADMIN
+          - INVENTORY_USER
+        read-roles:
+          - SYSTEM_ADMINISTRATOR
+          - INVENTORY_ADMIN
+          - INVENTORY_USER
+          - USER
+        delete-roles:
+          - SYSTEM_ADMINISTRATOR
+          - INVENTORY_ADMIN
+      
+      # Schedule management module
+      SCHEDULE:
+        admin-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SCHEDULE_ADMIN
+        write-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SCHEDULE_ADMIN
+          - MANAGER
+        read-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SCHEDULE_ADMIN
+          - MANAGER
+          - USER
+        delete-roles:
+          - SYSTEM_ADMINISTRATOR
+          - SCHEDULE_ADMIN
+      
+      # Timesheet management module
+      TIMESHEET:
+        admin-roles:
+          - SYSTEM_ADMINISTRATOR
+          - HR_ADMIN
+        write-roles:
+          - SYSTEM_ADMINISTRATOR
+          - HR_ADMIN
+          - USER  # Users can write their own timesheets
+        read-roles:
+          - SYSTEM_ADMINISTRATOR
+          - HR_ADMIN
+          - MANAGER
+          - USER
+        delete-roles:
+          - SYSTEM_ADMINISTRATOR
+          - HR_ADMIN
+      
+      # Asset management module
+      ASSET:
+        admin-roles:
+          - SYSTEM_ADMINISTRATOR
+          - ASSET_ADMIN
+        write-roles:
+          - SYSTEM_ADMINISTRATOR
+          - ASSET_ADMIN
+          - ASSET_USER
+        read-roles:
+          - SYSTEM_ADMINISTRATOR
+          - ASSET_ADMIN
+          - ASSET_USER
+          - USER
+        delete-roles:
+          - SYSTEM_ADMINISTRATOR
+          - ASSET_ADMIN
+      
+      # Constraint management (global resource)
+      CONSTRAINT:
+        admin-roles:
+          - SYSTEM_ADMINISTRATOR
+        write-roles:
+          - SYSTEM_ADMINISTRATOR
+          - PRIVILEGED_SYSTEM_USER
+        read-roles:
+          - SYSTEM_ADMINISTRATOR
+          - PRIVILEGED_SYSTEM_USER
+          - USER
+        delete-roles:
+          - SYSTEM_ADMINISTRATOR
+
+# Example of how to override for different environments:
+---
+spring:
+  config:
+    activate:
+      on-profile: development
+
+app:
+  access-control:
+    # WARNING: Only for development! Never use in production!
+    development-mode: true
+    cache-enabled: false  # Disable cache in development for immediate changes
+
+---
+spring:
+  config:
+    activate:
+      on-profile: production
+
+app:
+  access-control:
+    # Production settings - maximum security
+    development-mode: false
+    cache-enabled: true
+    cache-ttl-seconds: 600  # Longer cache in production (10 minutes)

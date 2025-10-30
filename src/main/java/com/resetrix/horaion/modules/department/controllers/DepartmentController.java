@@ -35,7 +35,7 @@ public class DepartmentController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER', 'USER') and @branchAccessChecker.hasAccess(authentication, #branchId)")
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER', 'USER') and @resourceAccessChecker.hasBranchAccess(authentication, #branchId)")
     public Page<DepartmentResponse> findAllByBranchId(
         @PathVariable String branchId,
         @RequestParam(defaultValue = "0") int page,
@@ -51,7 +51,7 @@ public class DepartmentController {
 
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER', 'USER') and @branchAccessChecker.hasAccess(authentication, #branchId)")
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER', 'USER') and @resourceAccessChecker.hasBranchAccess(authentication, #branchId)")
     public List<DepartmentResponse> findAllByBranchId(@PathVariable String branchId) {
         if (isNumericId(branchId)) {
             return service.getAllByBranchId(Long.valueOf(branchId));
@@ -62,21 +62,21 @@ public class DepartmentController {
 
     @GetMapping(value = "/{id:[0-9]+}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER', 'USER') and @branchAccessChecker.hasAccess(authentication, #branchId)")
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER', 'USER') and @resourceAccessChecker.hasAccess(authentication, T(com.resetrix.horaion.shared.enums.ResourceType).DEPARTMENT, #id)")
     public DepartmentResponse findById(@PathVariable String branchId, @PathVariable Long id) {
         return service.getById(id);
     }
 
     @GetMapping(value = "/{uuid:[0-9a-fA-F\\-]{36}}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER', 'USER') and @branchAccessChecker.hasAccess(authentication, #branchId)")
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER', 'USER') and @resourceAccessChecker.hasAccess(authentication, T(com.resetrix.horaion.shared.enums.ResourceType).DEPARTMENT, #uuid)")
     public DepartmentResponse findByUuid(@PathVariable String branchId, @PathVariable UUID uuid) {
         return service.getByUuid(uuid);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER') and @branchAccessChecker.hasAccess(authentication, #branchId)")
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER') and @resourceAccessChecker.hasAccess(authentication, T(com.resetrix.horaion.shared.enums.ResourceType).BRANCH, #branchId, T(com.resetrix.horaion.shared.enums.AccessMode).WRITE)")
     public DepartmentResponse create(
         @PathVariable String branchId,
         @Valid @RequestBody DepartmentRequest request) {
@@ -86,7 +86,7 @@ public class DepartmentController {
 
     @PutMapping(value = "/{id:[0-9]+}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER') and @branchAccessChecker.hasAccess(authentication, #branchId)")
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER') and @resourceAccessChecker.hasAccess(authentication, T(com.resetrix.horaion.shared.enums.ResourceType).DEPARTMENT, #id, T(com.resetrix.horaion.shared.enums.AccessMode).WRITE)")
     public DepartmentResponse updateById(
         @PathVariable String branchId,
         @PathVariable Long id,
@@ -97,7 +97,7 @@ public class DepartmentController {
 
     @PutMapping(value = "/{uuid:[0-9a-fA-F\\-]{36}}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER') and @branchAccessChecker.hasAccess(authentication, #branchId)")
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER') and @resourceAccessChecker.hasAccess(authentication, T(com.resetrix.horaion.shared.enums.ResourceType).DEPARTMENT, #uuid, T(com.resetrix.horaion.shared.enums.AccessMode).WRITE)")
     public DepartmentResponse updateByUuid(
         @PathVariable String branchId,
         @PathVariable UUID uuid,
@@ -108,7 +108,7 @@ public class DepartmentController {
 
     @DeleteMapping("/{id:[0-9]+}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER') and @branchAccessChecker.hasAccess(authentication, #branchId)")
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER') and @resourceAccessChecker.hasAccess(authentication, T(com.resetrix.horaion.shared.enums.ResourceType).DEPARTMENT, #id, T(com.resetrix.horaion.shared.enums.AccessMode).DELETE)")
     public void deleteById(
         @PathVariable String branchId,
         @PathVariable Long id,
@@ -122,7 +122,7 @@ public class DepartmentController {
 
     @DeleteMapping("/{uuid:[0-9a-fA-F\\-]{36}}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER') and @branchAccessChecker.hasAccess(authentication, #branchId)")
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER') and @resourceAccessChecker.hasAccess(authentication, T(com.resetrix.horaion.shared.enums.ResourceType).DEPARTMENT, #uuid, T(com.resetrix.horaion.shared.enums.AccessMode).DELETE)")
     public void deleteByUuid(
         @PathVariable String branchId,
         @PathVariable UUID uuid,
