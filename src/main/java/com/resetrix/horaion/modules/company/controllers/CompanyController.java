@@ -33,7 +33,7 @@ public class CompanyController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("@authorizationService.hasSystemAdminAccess(authentication)")
+    @PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')")
     public Page<CompanyResponse> findAll(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -44,21 +44,21 @@ public class CompanyController {
 
     @GetMapping(value = "/{id:[0-9]+}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("@authorizationService.hasSystemAdminAccess(authentication)")
+    @PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')")
     public CompanyResponse findById(@PathVariable Long id) {
         return service.getById(id);
     }
 
     @GetMapping(value = "/{uuid:[0-9a-fA-F\\-]{36}}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("@authorizationService.hasSystemAdminAccess(authentication)")
+    @PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')")
     public CompanyResponse findByUuid(@PathVariable UUID uuid) {
         return service.getByUuid(uuid);
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("@authorizationService.hasElevatedAccess(authentication)")
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER')")
     public CompanyResponse create(@Valid @ModelAttribute CompanyRequest request) {
         return service.save(request);
     }
@@ -67,7 +67,7 @@ public class CompanyController {
         value = "/{id:[0-9]+}",
         consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("@authorizationService.hasElevatedAccess(authentication)")
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER')")
     public CompanyResponse updateById(
         @PathVariable Long id,
         @Valid @ModelAttribute CompanyRequest request) {
@@ -78,7 +78,7 @@ public class CompanyController {
         value = "/{uuid:[0-9a-fA-F\\-]{36}}",
         consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("@authorizationService.hasElevatedAccess(authentication)")
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER')")
     public CompanyResponse updateByUuid(
         @PathVariable UUID uuid,
         @Valid @ModelAttribute CompanyRequest request) {
@@ -87,7 +87,7 @@ public class CompanyController {
 
     @DeleteMapping("/{id:[0-9]+}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("@authorizationService.hasElevatedAccess(authentication)")
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER')")
     public void deleteById(
         @PathVariable Long id,
         @RequestParam(defaultValue = "false") boolean soft) {
@@ -100,7 +100,7 @@ public class CompanyController {
 
     @DeleteMapping("/{uuid:[0-9a-fA-F\\-]{36}}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("@authorizationService.hasElevatedAccess(authentication)")
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER')")
     public void deleteByUuid(
         @PathVariable UUID uuid,
         @RequestParam(defaultValue = "false") boolean soft) {
