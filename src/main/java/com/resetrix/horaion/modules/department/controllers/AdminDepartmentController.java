@@ -55,7 +55,7 @@ public class AdminDepartmentController {
         return service.getAllByBranchId(branchId, page, size, sortBy, sortDirection);
     }
 
-    @GetMapping("/branch/{branchId:[0-9a-fA-F\\-]{36}}")
+    @GetMapping("/branch/{branchId:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER', 'USER')")
     public Page<DepartmentResponse> findAllByBranchUuid(
@@ -79,7 +79,7 @@ public class AdminDepartmentController {
         return service.getAllByCompanyId(companyId, page, size, sortBy, sortDirection);
     }
 
-    @GetMapping("/company/{companyId:[0-9a-fA-F\\-]{36}}")
+    @GetMapping("/company/{companyId:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER', 'USER')")
     public Page<DepartmentResponse> findAllByCompanyUuid(
@@ -107,7 +107,7 @@ public class AdminDepartmentController {
         return service.update(id, request);
     }
 
-    @PutMapping(value = "/{uuid:[0-9a-fA-F\\-]{36}}")
+    @PutMapping(value = "/{uuid:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER')")
     public DepartmentResponse updateByUuid(
@@ -129,7 +129,7 @@ public class AdminDepartmentController {
         }
     }
 
-    @DeleteMapping("/{uuid:[0-9a-fA-F\\-]{36}}")
+    @DeleteMapping("/{uuid:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER')")
     public void deleteByUuid(

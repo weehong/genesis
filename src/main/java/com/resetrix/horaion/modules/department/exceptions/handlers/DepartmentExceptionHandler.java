@@ -40,11 +40,11 @@ public class DepartmentExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ProblemDetail handleDataIntegrityViolationException(DataIntegrityViolationException ex,
                                                                HttpServletRequest request) {
-        LOGGER.warn("Data integrity violation for request {}", request.getRequestURI(), ex);
+        LOGGER.warn("Data integrity violation for request {}: {}", request.getRequestURI(), ex.getMessage(), ex);
 
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
             HttpStatus.CONFLICT,
-            ex.getMessage());
+            "Data integrity violation occurred");
 
         problemDetail.setTitle("Data Integrity Violation");
         problemDetail.setInstance(URI.create(request.getRequestURI()));
@@ -59,7 +59,7 @@ public class DepartmentExceptionHandler {
 
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
             HttpStatus.BAD_REQUEST,
-            ex.getMessage());
+            "Invalid request data");
 
         problemDetail.setTitle("Invalid Data Access Resource");
         problemDetail.setInstance(URI.create(request.getRequestURI()));

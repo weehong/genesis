@@ -10,13 +10,26 @@ import org.springframework.stereotype.Component;
 public class DepartmentMapper {
 
     public DepartmentResponse toResponse(Department department) {
+        // Safely extract branch and company information
+        Branch branch = department.getBranch();
+        Long branchId = branch != null ? branch.getId() : null;
+        String branchName = branch != null ? branch.getBranchName() : null;
+        
+        // Safely extract company information from branch
+        Long companyId = null;
+        String companyName = null;
+        if (branch != null && branch.getCompany() != null) {
+            companyId = branch.getCompany().getId();
+            companyName = branch.getCompany().getName();
+        }
+        
         return new DepartmentResponse(
             department.getId(),
             department.getUuid(),
-            department.getBranch().getId(),
-            department.getBranch().getBranchName(),
-            department.getBranch().getCompany().getId(),
-            department.getBranch().getCompany().getName(),
+            branchId,
+            branchName,
+            companyId,
+            companyName,
             department.getDepartmentName(),
             department.getDepartmentCode(),
             department.getDescription(),
