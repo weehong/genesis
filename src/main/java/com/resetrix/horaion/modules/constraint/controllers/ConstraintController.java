@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,7 @@ public class ConstraintController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER', 'USER')")
     public Page<ConstraintResponse> findAll(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int size,
@@ -44,18 +46,21 @@ public class ConstraintController {
 
     @GetMapping(value = "/{id:[0-9]+}")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER', 'USER')")
     public ConstraintResponse findById(@PathVariable Long id) {
         return service.getById(id);
     }
 
     @GetMapping(value = "/{uuid:[0-9a-fA-F\\-]{36}}")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER', 'USER')")
     public ConstraintResponse findByUuid(@PathVariable UUID uuid) {
         return service.getByUuid(uuid);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER')")
     public ConstraintResponse create(@Valid @RequestBody ConstraintRequest request) {
         return service.save(request);
     }
@@ -64,6 +69,7 @@ public class ConstraintController {
         value = "/{id:[0-9]+}",
         consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER')")
     public ConstraintResponse updateById(
         @PathVariable Long id,
         @Valid @RequestBody ConstraintRequest request) {
@@ -74,6 +80,7 @@ public class ConstraintController {
         value = "/{uuid:[0-9a-fA-F\\-]{36}}",
         consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER')")
     public ConstraintResponse updateByUuid(
         @PathVariable UUID uuid,
         @Valid @RequestBody ConstraintRequest request) {
@@ -82,6 +89,7 @@ public class ConstraintController {
 
     @DeleteMapping("/{id:[0-9]+}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER')")
     public void deleteById(
         @PathVariable Long id,
         @RequestParam(defaultValue = "false") boolean soft) {
@@ -94,6 +102,7 @@ public class ConstraintController {
 
     @DeleteMapping("/{uuid:[0-9a-fA-F\\-]{36}}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER')")
     public void deleteByUuid(
         @PathVariable UUID uuid,
         @RequestParam(defaultValue = "false") boolean soft) {
