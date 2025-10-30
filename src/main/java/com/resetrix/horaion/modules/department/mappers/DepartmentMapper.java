@@ -1,10 +1,11 @@
 package com.resetrix.horaion.modules.department.mappers;
 
+import org.springframework.stereotype.Component;
+
 import com.resetrix.horaion.modules.branch.entities.Branch;
 import com.resetrix.horaion.modules.department.entities.Department;
 import com.resetrix.horaion.modules.department.requests.DepartmentRequest;
 import com.resetrix.horaion.modules.department.responses.DepartmentResponse;
-import org.springframework.stereotype.Component;
 
 @Component
 public class DepartmentMapper {
