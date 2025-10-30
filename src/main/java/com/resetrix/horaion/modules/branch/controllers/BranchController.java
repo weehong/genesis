@@ -36,7 +36,7 @@ public class BranchController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("@authorizationService.canAccessCompanyResources(authentication, #companyId)")
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER', 'USER')")
     public Page<BranchResponse> findAllByCompanyId(
         @PathVariable String companyId,
         @RequestParam(defaultValue = "0") int page,
@@ -53,7 +53,7 @@ public class BranchController {
 
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("@authorizationService.canAccessCompanyResources(authentication, #companyId)")
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER', 'USER')")
     public List<BranchResponse> findAllByCompanyId(@PathVariable String companyId) {
         if (isNumericId(companyId)) {
             return service.getAllByCompanyId(Long.valueOf(companyId));
@@ -65,21 +65,21 @@ public class BranchController {
 
     @GetMapping(value = "/{id:[0-9]+}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("@authorizationService.canAccessCompanyResources(authentication, #companyId)")
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER', 'USER')")
     public BranchResponse findById(@PathVariable String companyId, @PathVariable Long id) {
         return service.getById(id);
     }
 
     @GetMapping(value = "/{uuid:[0-9a-fA-F\\-]{36}}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("@authorizationService.canAccessCompanyResources(authentication, #companyId)")
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER', 'USER')")
     public BranchResponse findByUuid(@PathVariable String companyId, @PathVariable UUID uuid) {
         return service.getByUuid(uuid);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("@authorizationService.hasElevatedAccess(authentication)")
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER')")
     public BranchResponse create(
         @PathVariable String companyId,
         @Valid @RequestBody BranchRequest request) {
@@ -89,7 +89,7 @@ public class BranchController {
 
     @PutMapping(value = "/{id:[0-9]+}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("@authorizationService.hasElevatedAccess(authentication)")
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER')")
     public BranchResponse updateById(
         @PathVariable String companyId,
         @PathVariable Long id,
@@ -100,7 +100,7 @@ public class BranchController {
 
     @PutMapping(value = "/{uuid:[0-9a-fA-F\\-]{36}}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("@authorizationService.hasElevatedAccess(authentication)")
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER')")
     public BranchResponse updateByUuid(
         @PathVariable String companyId,
         @PathVariable UUID uuid,
@@ -111,7 +111,7 @@ public class BranchController {
 
     @DeleteMapping("/{id:[0-9]+}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("@authorizationService.hasElevatedAccess(authentication)")
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER')")
     public void deleteById(
         @PathVariable String companyId,
         @PathVariable Long id,
@@ -125,7 +125,7 @@ public class BranchController {
 
     @DeleteMapping("/{uuid:[0-9a-fA-F\\-]{36}}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("@authorizationService.hasElevatedAccess(authentication)")
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR', 'SYSTEM_OWNER', 'PRIVILEGED_SYSTEM_USER')")
     public void deleteByUuid(
         @PathVariable String companyId,
         @PathVariable UUID uuid,
